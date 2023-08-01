@@ -1,2 +1,8 @@
 flask
 Flask-security
+flask-sqlalchemy
+bcrypt
+flask-migrate
+jinja2
+pyopenssl
+secrets
