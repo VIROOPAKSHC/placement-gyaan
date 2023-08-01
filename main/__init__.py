@@ -20,16 +20,15 @@ app.security = Security(app, user_datastore)
 
 app.config["SECURITY_EMAIL_VALIDATOR_ARGS"] = {"check_deliverability": False}
 
-
 with app.app_context():
     init_db()
-    # Create a user and role to test with
     app.security.datastore.find_or_create_role(
-        name="user",permissions={"user-read","user-write"}
+        name="student",description="User with Student Role",permissions={"user-read","user-write"}
     )
     db_session.commit()
     if not app.security.datastore.find_user(email="test@me.com"):
         app.security.datastore.create_user(email="test@me.com",username="testuser",
-        password=hash_password("password"), roles=["user"])
+        password=hash_password("password"), roles=["student"],attributes=["yearsOfExperience-5","company-Willings Inc."])
     db_session.commit()
+
 

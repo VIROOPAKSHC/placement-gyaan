@@ -22,7 +22,7 @@ class LocalDevelopmentConfig(Config):
     SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT", '146585145368132386173505678016728509634') # Read from ENV in your case
     SECURITY_LOGIN_USER_TEMPLATE='login.html'
     SECURITY_REGISTERABLE=True
-    SECURITY_POST_LOGIN_VIEW = '/user'
+    SECURITY_POST_LOGIN_VIEW = '/home'
     REMEMBER_COOKIE_SAMESITE = "strict"
     SESSION_COOKIE_SAMESITE = "strict" # have session and remember cookie be samesite (flask/flask_login)
     SQLALCHEMY_TRACK_MODIFICATIONS=False

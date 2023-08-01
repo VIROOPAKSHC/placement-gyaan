@@ -20,7 +20,7 @@ def favicon():
   return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route("/user")
+@app.route("/home")
 @auth_required()
 def user_home():
     return render_template_string("Hello {{ current_user.email }} you are a user!")
