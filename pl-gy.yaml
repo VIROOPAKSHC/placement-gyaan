@@ -1,0 +1,454 @@
+openapi: 3.0.0
+info:
+  title: Placement-Gyaan portal team-16
+  contact: {
+          name: 'Chekuri Viroopaksh',
+          url: 'https://www.github.com/VIROOPAKSHC',
+          email: 'chekuriviroopaksh@gmail.com'
+          }
+  description: >
+    <div>This is an API definition set for an application that enables users to register and use preparation a portal for the placement skills development and sharing of different types of users.
+    </div>
+
+    <h3> User Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Unique</td>
+      </tr>
+      <tr>
+        <td>email</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>password</td>
+        <td>String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>active</td>
+        <td>boolean</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>fs_uniquifier</td>
+        <td>string</td>
+        <td>Unique</td>
+      </tr>
+      <tr>
+        <td>attributes</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <h3> Role Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>descrption</td>
+        <td>String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>permissions</td>
+        <td>String</td>
+        <td></td>
+      </tr>
+    </tbody>
+    </table>
+    <h3> RolesUsers Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>user_id</td>
+        <td>Integer</td>
+        <td>Primary Key, Foreign Key (user.id)</td>
+      </tr>
+      <tr>
+        <td>role_id</td>
+        <td>Integer</td>
+        <td>Primary Key, Foreign Key (role.id)</td>
+      </tr>
+      
+    </tbody>
+    </table>
+
+    <h3> Question Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>question</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>answer</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>choices</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>type</td>
+        <td>String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>auth_id</td>
+        <td>Integer</td>
+        <td>Foreign Key(user.id)</td>
+      </tr>
+      <tr>
+        <td>timestamp</td>
+        <td>DateTime</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>correct_choice</td>
+        <td>String</td>
+        <td></td>
+      </tr>
+      
+    </tbody>
+    </table>
+
+    <h3> Experience Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>title</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>description</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>auth_id</td>
+        <td>Integer</td>
+        <td>Foreign Key ( user.id ) </td>
+      </tr>
+      <tr>
+        <td>anonymous</td>
+        <td>Integer</td>
+        <td>Default 0</td>
+      </tr>
+      <tr>
+        <td>timestamp</td>
+        <td>DateTime</td>
+        <td>Not Null, Default 0</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <h3> Error Codes </h3> 
+    <!-- Change error codes-->
+    <table>
+      <thead>
+        <th>Resource</th>
+        <th>Error Code</th>
+        <th>Message</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>User</td>
+        <td>USER001</td>
+        <td>User credentials error</td>
+      </tr>
+      <tr>
+        <td>User</td>
+        <td>USER002</td>
+        <td>User does not exist.</td>
+      </tr>
+      <tr>
+        <td>User</td>
+        <td>USER003</td>
+        <td>User is not logged in a session.</td>
+      </tr>
+      <tr>
+        <td>Experience</td>
+        <td>EXPE001</td>
+        <td>Experience does not exist.</td>
+      </tr>
+      <tr>
+        <td>Experience</td>
+        <td>EXPE002</td>
+        <td>Experience does not belong to user.</td>
+      </tr>
+      <tr>
+        <td>Experience</td>
+        <td>EXPE003</td>
+        <td>Experience with the given name already exists</td>
+      </tr>
+      <tr>
+        <td>Request</td>
+        <td>REQUEST001</td>
+        <td>Wrong request body</td>
+      </tr>
+    </tbody>
+    </table>
+
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+  /login?include_auth_token:
+    description: End point for user
+    post:
+      description: Operation to fetch auth token.
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: "emailid@example.com"
+                  password:
+                    type: string
+                    example: "something"
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                title: user object
+                type: object
+                properties:
+                  auth_token:
+                    type: string
+                    example: "Sbxhi6752BNJS8xdfmn9nB0"
+        '404':
+          description: Error code USER001 or USER002
+        '500':
+          description: Internal server error
+          
+        
+  /user/experience/:
+      description: End point for experiences for a user
+      get:
+        description: Operation to read user experiences list.
+        requestBody:
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      auth_token:
+                        type: string
+                        example: "B7SJnxgsnm8966snms963bm"
+        responses:
+          '200':
+            description: Request successful
+            content:
+              application/json:
+                schema:
+                  title: experiences list
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 12
+                    title:
+                      type: string
+                      example: "My experience at ___"
+                    description:
+                      type: string
+                      example: "Experience description"
+                    timestamp:
+                      type: number
+                      example: 355679
+          '404':
+            description:  USER001
+          '500':
+            description: USER002
+
+  /user/experience/{exp_id}:
+      description: End point for reading an experience (own)
+      get:
+        description: Operation to read experience.
+        requestBody:
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      auth_token:
+                        type: string
+                        example: "B7SJnxgsnm8966snms963bm"
+        parameters:
+          - in: path
+            name: exp_id
+            required: true
+            schema:
+              type: integer
+              example: 12
+              
+        responses:
+          '200':
+            description: Request successful
+            content:
+              application/json:
+                schema:
+                  title: experiences list
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: "Experience at ___"
+                    description:
+                      type: string
+                      example: "Experience description"
+                    edited:
+                      type: number
+                      example: 123998
+                   
+          '404':
+            description: EXPE001
+          '500':
+            description: EXPE002 or REQUEST001
+            
+      put:
+        description: Operation to edit an experience.
+        requestBody:
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      auth_token:
+                        type: string
+                        example: "B7SJnxgsnm8966snms963bm"
+                      title:
+                        type: string
+                        example: "Updated title"
+                      description:
+                        type: string
+                        example: "Updated description"
+        parameters:
+          - in: path
+            name: exp_id
+            required: true
+            schema:
+              type: integer
+              example: 2
+        responses:
+          '200':
+            description: Request successful
+            content:
+              application/json:
+                schema:
+                  title: deck object
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "Updated title"
+                    description:
+                      type: string
+                      example: "Updated description"
+          '404':
+            description: EXPE001 or USER001
+          '500':
+            description: EXPE003
+                    
+      delete:
+        description: Operation to delete deck data.
+        parameters:
+          - in: path
+            name: exp_id
+            required: true
+            schema:
+              type: integer
+              example: 2
+        requestBody:
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      auth_token:
+                        type: string
+                        example: "B7SJnxgsnm8966snms963bm"
+                      exp_id:
+                        type: integer
+                        example: 12
+        responses:
+          '200':
+            description: Request successful
+            content:
+              application/json:
+                schema:
+                  title: deck object
+                  type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: "Successfully deleted"
+          '404':
+            description: EXPE001 or USER001
+          '500':
+            description: EXPE002
+ 

@@ -4,11 +4,13 @@ from main.models import *
 from main.config import LocalDevelopmentConfig
 from flask import Flask
 import os
+from flask_restful import Api
 
 from flask import Flask, render_template_string
 from flask_security import Security, current_user, auth_required, hash_password, \
      SQLAlchemySessionUserDatastore, permissions_accepted
 from main.database import db_session, init_db
+from flask_jwt_extended import create_access_token, JWTManager
 
 app = Flask(__name__)
 app.config.from_object(LocalDevelopmentConfig)
@@ -19,7 +21,8 @@ app.security = Security(app, user_datastore)
 
 
 app.config["SECURITY_EMAIL_VALIDATOR_ARGS"] = {"check_deliverability": False}
-
+api=Api(app)
+jwt=JWTManager(app)
 with app.app_context():
     init_db()
     app.security.datastore.find_or_create_role(
@@ -29,6 +32,9 @@ with app.app_context():
     if not app.security.datastore.find_user(email="test@me.com"):
         app.security.datastore.create_user(email="test@me.com",username="testuser",
         password=hash_password("password"), roles=["student"],attributes=["yearsOfExperience-5","company-Willings Inc."])
+    
+
     db_session.commit()
+
 
 
