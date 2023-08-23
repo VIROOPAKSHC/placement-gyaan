@@ -4,9 +4,28 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
+	
+	<title>{% block title %} Home Page {% endblock %}</title>
+	
 </head>
 <body>
+	{% block content %}
+	<div class="content">
+        <h2>Welcome to Our Placement Experience Platform</h2>
+        <p>Explore and learn from a diverse collection of placement experiences shared by students and professionals. Our platform empowers learners and aspiring candidates with valuable insights into different job roles and industries.</p>
+        
+        <h3>Featured Placement Experiences</h3>
+        <p>Discover firsthand accounts of real placement experiences, including interview processes, challenges faced, and valuable lessons learned.</p>
+        
+        <h3>Contribute Exam Questions</h3>
+        <p>Be a part of our growing repository of exam questions! Contribute your exam questions to help fellow learners prepare for their assessments and exams.</p>
+        
+        <h3>Connect with Seniors</h3>
+        <p>Our platform fosters connections between juniors and seniors. Gain advice, mentorship, and insights from experienced professionals who have walked the same path.</p>
+        
+        <!-- Additional content can be added here -->
+        {% endblock %}
+    </div>
 
 </body>
 </html>
