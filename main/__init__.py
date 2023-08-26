@@ -29,11 +29,17 @@ with app.app_context():
     app.security.datastore.find_or_create_role(
         name="senior",description="User with Senior Role",permissions={"user-read","user-write"}
     )
+    app.security.datastore.find_or_create_role(
+        name="student",description="User with Student",permissions={"user-read","user-write"}
+    )
     
     db_session.commit()
     if not app.security.datastore.find_user(email="test@me.com"):
         app.security.datastore.create_user(email="test@me.com",username="testuser",
         password=hash_password("password"), roles=["senior"],attributes=["yearsOfExperience-5","company-Willings Inc."])
+    if not app.security.datastore.find_user(email="test@you.com"):
+        app.security.datastore.create_user(email="test@you.com",username="testuser2",
+        password=hash_password("password"), roles=["student"],attributes=["yearsOfStudy-4","department-Metallurgical and Materials Engineering"])
     
 
     db_session.commit()

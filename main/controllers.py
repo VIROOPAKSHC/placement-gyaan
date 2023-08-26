@@ -64,4 +64,4 @@ def user_home():
     # print(current_user)
     # role=Role.query.filter_by(id=(RolesUsers.query.filter_by(user_id=current_user.id).first().role_id)).first()
     # print(role.id,role.name,role.description,role.permissions)
-    return render_template("home.html")
+    return render_template("home.html",user=current_user)

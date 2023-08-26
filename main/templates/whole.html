@@ -88,15 +88,17 @@
         <a href="/experience">Experience</a>
         <a href="/assessment">Assessment</a>
         <a href="/connect">Connect</a>
+        {% block user %} {% endblock %}
         <a href="/logout" style="float: right;">Logout</a>
     </div>
 
     <!-- Header -->
+    {% block welcome %}
     <div class="header">
         <h1>Welcome to Our Website</h1>
         <p>Empowering Minds</p>
     </div>
-
+    {% endblock %}
     <!-- Main Content -->
     <!-- Main Content -->
     {% block content %}
