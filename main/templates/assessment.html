@@ -1,8 +1,99 @@
 {% extends "whole.html" %}
 
+	{% block styling %}
+		<style>
+			
+			body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* Light gray background */
+    color: #333;
+}
+
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+/*    background-color: #007ACC;*/
+}
+
+/* Button styles */
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 10px 0;
+}
+
+.button-primary {
+    background-color: orange; /* Blue */
+    color: #fff;
+}
+
+.button-secondary {
+    background-color: #e74c3c; /* Red */
+    color: #fff;
+}
+
+.button:hover {
+    background-color: green; /* Darker blue on hover */
+}
+.Custom {
+    text-align: center;
+    padding: 100px;
+    background-color: #007ACC; /* Header background color */
+}
+
+.Custom {
+    color: lavenderblush;
+}
+.add-object-button {
+    display: inline-block;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+		</style>
+	{% endblock %}
+
+
 {% block welcome %}
     <div class="header">
         <h1>Welcome to the Questions webpage</h1>
         <p>Empowering Minds</p>
     </div>
+{% endblock %}
+
+{% block content %}
+<body>
+   <!-- <h1 class="Custom"> Choose from below </h1> -->
+        <div class="button-container">
+            <a class="button button-primary" href="/aptitude">Explore Aptitude Questions</a>
+            <a class="button button-secondary" href="/technical">Discover Technical Questions</a>
+    	</div>
+        <a class="add-object-button" href="/add-question">Add New Questions</a>
+</body>
+
 {% endblock %}
