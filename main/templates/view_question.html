@@ -1,0 +1,39 @@
+{% extends "whole.html" %}
+
+{% block title %}View Question{% endblock %}
+{% block styling %}
+<style>
+    .question-id-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+{% endblock %}
+{% block welcome %}
+<div class="header">
+        <h1>View the question</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="question-id-container">
+    <h1>View Question</h1>
+    <h2>{{ question.question }}</h2>
+    <p><strong>Answer:</strong> {{ question.answer }}</p>
+    <strong>Choices:</strong>  
+    <ol>
+    {% for choice in question.choices.split(",") %}
+        <li> {{ choice }}</li>
+    {% endfor %}
+    </ol>
+    <p><strong>Type:</strong> {{ question.type }}</p>
+    <p><strong>Author:</strong> {{ username }}</p>
+    <p><strong>Timestamp:</strong> {{ question.timestamp }}</p>
+    <p><strong>Correct Choice:</strong> {{ question.correct_choice or "Not specified" }}</p>
+</div>
+{% endblock %}

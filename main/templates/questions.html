@@ -1,0 +1,53 @@
+{% extends "whole.html" %}
+
+{% block title %}
+Questions Page
+{% endblock %}
+
+{% block styling %}
+<style>
+	.questions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.questions-table th, .questions-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+</style>
+
+{% endblock %}
+
+
+{% block welcome %}
+	<div class="header">
+        <h1>Welcome to {{ type }} Questions Page</h1>
+        <p>Empowering Minds</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+        <table class="questions-table">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Title</th>
+                    <th>Username</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question[0] }}</td>
+                        <td><a href="{{ url_for('view_question', question_id=question[4]) }}">{{ question[1] }}</a></td>
+                        <td>{{ question[2] }}</td>
+                        <td>{{ question[3] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

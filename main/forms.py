@@ -24,3 +24,4 @@ class RegistrationForm(FlaskForm):
     # Fields for Aspiring Candidate
     skills = TextAreaField('Skills', [validators.Optional()], render_kw={"placeholder": "Skills"})
     desired_role = StringField('Desired Role', [validators.Optional()], render_kw={"placeholder": "Desired Role"})
+
