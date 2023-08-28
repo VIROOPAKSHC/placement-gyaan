@@ -1,0 +1,30 @@
+{% extends "whole.html" %}
+
+{% block title %}View Experience{% endblock %}
+{% block styling %}
+<style>
+    .exp-id-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+{% endblock %}
+{% block welcome %}
+<div class="header">
+        <h1>View the Experience</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="exp-id-container">
+    <h2>{{ experience.title }}</h2>
+    <p><strong>Description:</strong> {{ experience.description }}</p>
+    <p><strong>Author:</strong> {{ "User has chosen to be anonymous. Sorry!!" if experience.anonymous else username }}</p>
+    <p><strong>Timestamp:</strong> {{ timestamp }}</p>
+</div>
+{% endblock %}

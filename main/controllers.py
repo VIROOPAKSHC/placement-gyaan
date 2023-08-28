@@ -7,6 +7,10 @@ from flask import render_template,render_template_string,redirect, request, url_
 from main.forms import RegistrationForm
 import datetime as dt
 
+def extract_time(timestamp):
+  time_and_date=dt.datetime.strptime(str(timestamp).split(".")[0],"%Y-%m-%d %H:%M:%S")
+  return dt.datetime.strftime(time_and_date,"%d %b,%Y %I:%M %p")
+
 @app.route('/')
 def index():
   return redirect("/home")
@@ -72,17 +76,21 @@ def user_connect():
 
 def extract(type):
   questions=[]
-  c=1
   for question in Question.query.filter_by(type=type).all():
     l=[]
-    l.append(c)
+    l.append(-1)
     l.append(question.question)
     l.append(User.query.filter_by(id=question.auth_id).first().username)
-    l.append(question.timestamp)
+    l.append(extract_time(question.timestamp))
     l.append(question.id)
     questions.append(l)
+  questions.sort(key=lambda x:x[3],reverse=True)
+  c=1
+  for que in questions:
+    que[0]=c
     c+=1
   return questions
+
 
 @app.route("/aptitude")
 @auth_required()
@@ -138,3 +146,62 @@ def add_question():
         
 
     return render_template('add-question.html', message=message)
+
+@app.route("/experience")
+@auth_required()
+def experiences():
+  exps=[]
+
+  for exp in Experience.query.all():
+    l=[]
+    l.append(-1)
+    l.append(exp.title)
+    l.append(User.query.filter_by(id=exp.auth_id).first().username)
+    l.append(extract_time(exp.timestamp))
+    l.append(str(exp.id))
+    l.append(exp.anonymous)
+    exps.append(l)
+  exps.sort(key=lambda x:x[3],reverse=True)
+  c=1
+  for exp in exps:
+    exp[0]=c
+    c+=1
+  return render_template("experiences.html",experiences=exps)
+
+@app.route("/add-experience",methods=["GET","POST"])
+@auth_required()
+def add_experience():
+  if request.method=="GET":
+    return render_template("add-experience.html")
+  else:
+    title = request.form['title']
+    description = request.form['description']
+    anonymous = request.form['anonymous']
+
+    new_experience = Experience(
+        title=title,
+        description=description,
+        anonymous=1 if anonymous=="yes" else 0,
+        auth_id=current_user.id,
+        timestamp=dt.datetime.now()
+    )
+
+    try:
+        db_session.add(new_experience)
+        db_session.commit()
+        message = "Experience added successfully!"
+    except Exception as e:
+        db_session.rollback()
+        message = f"Error: {str(e)}"
+        if Experience.query.filter_by(title=title).first():
+          message="Title already exists for another experience, add a different experience or change the title"
+        
+
+    return render_template('add-experience.html', message=message)
+
+@app.route('/view_experience/<int:exp_id>')
+@auth_required()
+def view_experience(exp_id):
+    experience = Experience.query.get(exp_id)
+    user=User.query.filter_by(id=experience.auth_id).first()
+    return render_template('view_experience.html', experience=experience,username=user.username,timestamp=extract_time(experience.timestamp))

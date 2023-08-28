@@ -1,0 +1,70 @@
+{% extends "whole.html" %}
+
+{% block title %}
+Experiences Page
+{% endblock %}
+
+{% block styling %}
+<style>
+	.exp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.exp-table th, .exp-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+.add-object-button {
+    display: inline-block;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+</style>
+
+{% endblock %}
+
+
+{% block welcome %}
+	<div class="header">
+        <h1>Welcome to Experiences Page</h1>
+        <p>Explore various experiences shared by users</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+        <table class="exp-table">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Title</th>
+                    <th>Username</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exp in experiences %}
+                    <tr>
+                        <td>{{ exp[0] }}</td>
+                        <td><a href="{{ 'view_experience/' + exp[4] }}">{{ exp[1] }}</a></td>
+                        <td>{{ "anonymous" if exp[5] else exp[2]  }}</td>
+                        <td>{{ exp[3] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="add-exp-button" href="/add-experience">Add New Experience</a>
+{% endblock %}
