@@ -6,6 +6,9 @@ from flask_security import Security, current_user, auth_required, hash_password,
 from flask import render_template,render_template_string,redirect, request, url_for
 from main.forms import RegistrationForm
 import datetime as dt
+from flask_socketio import SocketIO, emit
+
+
 
 def extract_time(timestamp):
   time_and_date=dt.datetime.strptime(str(timestamp).split(".")[0],"%Y-%m-%d %H:%M:%S")
@@ -62,17 +65,17 @@ def register():
 @app.route("/home")
 @auth_required()
 def user_home():
-    return render_template("home.html",user=current_user)
+    return render_template("home.html",user=current_user,username=current_user.username)
 
 @app.route("/assessment")
 @auth_required()
 def user_assessment():
-  return render_template("assessment.html")
+  return render_template("assessment.html",username=current_user.username)
 
-@app.route("/connect")
-@auth_required()
-def user_connect():
-  return render_template("connect.html")
+# @app.route("/connect")
+# @auth_required()
+# def user_connect():
+#   return render_template("connect.html",username=current_user.username)
 
 def extract(type):
   questions=[]
@@ -96,13 +99,13 @@ def extract(type):
 @auth_required()
 def aptitude_question():
   # print(extract("aptitude"))
-  return render_template("questions.html",type="Aptitude",questions=extract("Aptitude"))
+  return render_template("questions.html",type="Aptitude",questions=extract("Aptitude"),username=current_user.username)
 
 @app.route("/technical")
 @auth_required()
 def technical_question():
   
-  return render_template("questions.html",type="Technical",questions=extract("Technical"))
+  return render_template("questions.html",type="Technical",questions=extract("Technical"),username=current_user.username)
 
 @app.route('/view_question/<int:question_id>')
 @auth_required()
@@ -116,7 +119,7 @@ def view_question(question_id):
 @auth_required()
 def add_question():
   if request.method=="GET":
-    return render_template("add-question.html")
+    return render_template("add-question.html",username=current_user.username)
   else:
     question = request.form['question']
     answer = request.form['answer']
@@ -145,7 +148,7 @@ def add_question():
           message="Question already exists, add a different question or change the question name"
         
 
-    return render_template('add-question.html', message=message)
+    return render_template('add-question.html', message=message,username=current_user.username)
 
 @app.route("/experience")
 @auth_required()
@@ -166,13 +169,13 @@ def experiences():
   for exp in exps:
     exp[0]=c
     c+=1
-  return render_template("experiences.html",experiences=exps)
+  return render_template("experiences.html",experiences=exps,username=current_user.username)
 
 @app.route("/add-experience",methods=["GET","POST"])
 @auth_required()
 def add_experience():
   if request.method=="GET":
-    return render_template("add-experience.html")
+    return render_template("add-experience.html",username=current_user.username)
   else:
     title = request.form['title']
     description = request.form['description']
@@ -197,11 +200,30 @@ def add_experience():
           message="Title already exists for another experience, add a different experience or change the title"
         
 
-    return render_template('add-experience.html', message=message)
+    return render_template('add-experience.html', message=message,username=current_user.username)
 
 @app.route('/view_experience/<int:exp_id>')
 @auth_required()
 def view_experience(exp_id):
     experience = Experience.query.get(exp_id)
     user=User.query.filter_by(id=experience.auth_id).first()
-    return render_template('view_experience.html', experience=experience,username=user.username,timestamp=extract_time(experience.timestamp))
+    return render_template('view_experience.html', experience=experience,username=user.username,timestamp=extract_time(experience.timestamp),user=current_user.username)
+
+@app.route("/connect")
+@auth_required()
+def connecting():
+  if RolesUsers.query.filter_by(user_id=current_user.id).first().role_id!=3:
+    seniors=[]
+    role_id=Role.query.filter_by(name="senior").first().id
+    for user in User.query.all():
+      if RolesUsers.query.filter_by(user_id=user.id).first().role_id==role_id:
+        seniors.append(user)
+    return render_template("senior.html",seniors=seniors,username=current_user.username)
+  else:
+    chats=[]
+    for message in Message.query.filter_by(sender=current_user.id).all():
+      chats.append(User.query.filter_by(id=message.recipient).first())
+    for message in Message.query.filter_by(recipient=current_user.id).all():
+      chats.append(User.query.filter_by(id=message.sender).first())
+    print(chats)
+    return render_template("chat_for_seniors.html",messengers=list(set(chats)),username=current_user.username)

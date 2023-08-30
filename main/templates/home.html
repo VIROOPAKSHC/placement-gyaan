@@ -1,4 +1,5 @@
 {% extends "whole.html" %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,14 +8,7 @@
 	
 	<title>{% block title %} Home Page {% endblock %}</title>
 	<style>
-     .Name{
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-     }   
+     
     </style>
 </head>
 <body>
@@ -33,9 +27,9 @@
         <p>Our platform fosters connections between juniors and seniors. Gain advice, mentorship, and insights from experienced professionals who have walked the same path.</p>
         
         <!-- Additional content can be added here -->
-        {% endblock %}
+    {% endblock %}
         {% block user %}
-            <a class="Name" href="#"> {{ user.username }} </a>
+            {{ username }}
         {% endblock %}
     </div>
 

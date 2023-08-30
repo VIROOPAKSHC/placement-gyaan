@@ -11,6 +11,8 @@ from flask_security import Security, current_user, auth_required, hash_password,
      SQLAlchemySessionUserDatastore, permissions_accepted
 from main.database import db_session, init_db
 from flask_jwt_extended import create_access_token, JWTManager
+from flask_socketio import SocketIO,emit
+import datetime as dt
 
 app = Flask(__name__)
 app.config.from_object(LocalDevelopmentConfig)
@@ -26,6 +28,42 @@ api=Api(app)
 
 with app.app_context():
     init_db()
+
+socketio=SocketIO(app)
+
+@app.route("/chat/<username>")
+@auth_required()
+def chatting(username):
+  if not User.query.filter_by(username=username).first():
+    return "No such username, provide valid username"
+  user=User.query.filter_by(username=username).first()
+  messages=[]
+  for msg in Message.query.all():
+    d={}
+    if (msg.sender==user.id and msg.recipient==current_user.id):
+      d["sender"]=user.username
+      d["recipient"]=current_user.username
+      d["content"]=msg.message
+    elif (msg.sender==current_user.id and msg.recipient==user.id):
+      d["sender"]=current_user.username
+      d["recipient"]=user.username
+      d["content"]=msg.message
+
+    messages.append(d)
+  return render_template("chat.html",messages=messages,sender=current_user,recipient=user)
+
+
+@socketio.on('message')
+def handle_message(data):
+    print("Hi")
+    sender = data['sender']
+    recipient = data['recipient']
+    content = data['content']
+    message = Message(sender=User.query.filter_by(username=sender).first().id, recipient=User.query.filter_by(username=recipient).first().id, message=content)
+    db_session.add(message)
+    db_session.commit()
+    emit('message', {'sender': sender, 'content': content}, broadcast=True)
+
 
 class UserResource(Resource):
     def post(self):

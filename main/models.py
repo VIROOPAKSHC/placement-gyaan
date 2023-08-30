@@ -7,8 +7,7 @@ from sqlalchemy import Boolean, DateTime, Column, Integer, \
 
 class RolesUsers(Base):
     __tablename__ = 'RolesUsers'
-    id = Column(Integer(), primary_key=True,autoincrement=True)
-    user_id = Column('user_id', Integer(), ForeignKey('User.id'))
+    user_id = Column('user_id', Integer(), ForeignKey('User.id'),primary_key=True)
     role_id = Column('role_id', Integer(), ForeignKey('Role.id'))
 
 class Role(Base, RoleMixin):
@@ -73,15 +72,10 @@ class Experience(Base):
 	# Relationships
 	# author = relationship('User', backref='experiences')
 
-# Chat Model
-class Chat(Base):
-	__tablename__="Chat"
-	id=Column(Integer,primary_key=True,autoincrement=True)
-	user1=Column(Integer,ForeignKey("User.id"),nullable=False)
-	user2=Column(Integer,ForeignKey("User.id"),nullable=False)
-
 class Message(Base):
 	__tablename__="Message"
 	id=Column(Integer,primary_key=True,autoincrement=True)
 	message=Column(String(512),nullable=False)
-	chat_id=Column(Integer,ForeignKey("Chat.id"))
+	sender=Column(Integer,nullable=False)
+	recipient=Column(Integer,nullable=False)
+	timestamp=Column(String(80),default=0)

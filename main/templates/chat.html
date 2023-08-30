@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .chat-box {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .sender {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<div class="chat-box">
+    <h1>Chat Interface</h1>
+    <div id="message-list">
+        {% for message in messages %}
+                <div class="message-box">
+                    <div class="sender">{{ message.sender }}</div>
+                    <div>{{ message.content }}</div>
+                </div>
+        {% endfor %}
+    </div>
+    <input type="text" id="message-input" placeholder="Type your message">
+    <button id="send-button" data-sender={{ sender.username }} data-recipient={{ recipient.username }}>Send</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    const socket = io();
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const messageList = document.getElementById('message-list');
+
+    sendButton.addEventListener('click', () => {
+        const content = messageInput.value;
+        const sender = sendButton.getAttribute('data-sender');
+        const recipient = sendButton.getAttribute('data-recipient');
+        if (content && sender && recipient) {
+            socket.emit('message', { sender, recipient, content });
+            messageInput.value = '';
+        }
+    });
+
+    socket.on('message', (data) => {
+        const messageBox = document.createElement('div');
+        messageBox.classList.add('message-box');
+        messageBox.innerHTML = `
+            <div class="sender">${data.sender}</div>
+            <div>${data.content}</div>`;
+        messageList.appendChild(messageBox);
+    });
+</script>

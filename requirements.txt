@@ -6,3 +6,5 @@ flask-migrate
 jinja2
 pyopenssl
 secrets
+Flask-SocketIO
+eventlet
