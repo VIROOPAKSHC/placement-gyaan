@@ -71,7 +71,7 @@ class ExperienceResource(Resource):
     def post(self):
         data = request.get_json()
         if not data:
-            return {'Error': 'REQUEST001'}, 400
+            return {'Error': 'REQUEST001'}, 404
 
         title = data.get('title')
         description = data.get('description')
@@ -79,7 +79,7 @@ class ExperienceResource(Resource):
         user_id=current_user.id
 
         if not( title or description or anonymous):
-            return {'Error': 'REQUEST001'}, 400
+            return {'Error': 'REQUEST001'}, 404
         try:
 
             experience = Experience(title=title, description=description, anonymous=anonymous, auth_id=user_id, timestamp = dt.datetime.now())
@@ -91,13 +91,13 @@ class ExperienceResource(Resource):
             if Experience.query.filter_by(title=title).first():
                 return {"Error":"EXPE001"}
             
-            return {"Error" : "Unknown Error"},403
+            return {"Error" : "Unknown Error"},404
 
     @auth_required("token")
     def put(self,exp_id):
         data = request.get_json()
         if not Experience.query.filter_by(id=exp_id).first():
-            return {"Error":"EXPE001"},403
+            return {"Error":"EXPE001"},404
         if not data:
             return {'Error': 'No input data provided'}, 400
 
