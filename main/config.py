@@ -8,7 +8,7 @@ class Config():
     SQLALCHEMY_DATABASE_URI = None
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = False
-    SECURITY_TOKEN_AUTHENTICATION_HEADER = "Authentication-Token"
+    SECURITY_TOKEN_AUTHENTICATION_HEADER = "auth_token"
 
 # Bcrypt is set as default SECURITY_PASSWORD_HASH, which requires a salt
 # Generate a good salt using: secrets.SystemRandom().getrandbits(128)
@@ -26,6 +26,7 @@ class LocalDevelopmentConfig(Config):
     REMEMBER_COOKIE_SAMESITE = "strict"
     SESSION_COOKIE_SAMESITE = "strict" # have session and remember cookie be samesite (flask/flask_login)
     SQLALCHEMY_TRACK_MODIFICATIONS=False
+    WTF_CSRF_ENABLED = False
 
 
 

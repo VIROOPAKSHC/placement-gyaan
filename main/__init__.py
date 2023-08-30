@@ -5,7 +5,7 @@ from main.config import LocalDevelopmentConfig
 from flask import Flask
 import os
 from flask_restful import Api
-
+from main.api import *
 from flask import Flask, render_template_string
 from flask_security import Security, current_user, auth_required, hash_password, \
      SQLAlchemySessionUserDatastore, permissions_accepted
@@ -22,7 +22,7 @@ app.security = Security(app, user_datastore)
 
 app.config["SECURITY_EMAIL_VALIDATOR_ARGS"] = {"check_deliverability": False}
 api=Api(app)
-jwt=JWTManager(app)
+# jwt=JWTManager(app)
 
 with app.app_context():
     init_db()
@@ -46,3 +46,6 @@ with app.app_context():
 
 
 
+api.add_resource(ExperienceResource,"/user/experience/","/user/experience/<int:exp_id>")
+api.add_resource(UserResource, '/user')
+api.add_resource(QuestionResource,"/question")
