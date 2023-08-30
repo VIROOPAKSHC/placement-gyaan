@@ -8,3 +8,6 @@ pyopenssl
 secrets
 Flask-SocketIO
 eventlet
+pytest
+pytest-flask
+requests
