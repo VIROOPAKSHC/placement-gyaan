@@ -4,41 +4,13 @@ from flask_restful import Resource,Api
 from werkzeug.exceptions import HTTPException
 from flask import request,make_response
 import json
-from flask_security import auth_required, login_required, roles_accepted, roles_required, auth_token_required,current_user
+from flask_security import auth_required, login_required, roles_accepted, roles_required, auth_token_required,current_user,hash_password
 from flask_restful import Api, Resource, reqparse
 from flask_security import SQLAlchemyUserDatastore, Security
 from flask_sqlalchemy import SQLAlchemy
 # from main import app, api
 import datetime as dt
-
-
-class UserResource(Resource):
-    def post(self):
-        data = request.get_json()
-        if not data:
-            return {'Error': 'REQUEST001'}, 400
-
-        email = data.get('email')
-        username = data.get('username')
-        password = data.get('password')
-        roles = data.get('roles')
-        attributes = data.get('attributes')
-
-        if not email or not username or not password or not roles:
-            return {'Error': 'REQUEST001'}, 400
-        
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            return {'message': 'User with this email already exists'}, 400
-
-        try:
-            app.security.datastore.create_user(email=email,username=username, password=hash_password(password), roles=[role],attributes=attributes.split(", "))
-
-            db_session.commit()
-
-            return {'message': 'User created successfully'}, 201
-        except:
-            return {"Error":"USER001"}
+import json
 
 class ExperienceResource(Resource):
     @auth_required("token")

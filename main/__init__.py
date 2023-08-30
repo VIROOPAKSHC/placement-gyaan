@@ -26,26 +26,39 @@ api=Api(app)
 
 with app.app_context():
     init_db()
-    app.security.datastore.find_or_create_role(
-        name="senior",description="User with Senior Role",permissions={"user-read","user-write"}
-    )
-    app.security.datastore.find_or_create_role(
-        name="student",description="User with Student",permissions={"user-read","user-write"}
-    )
-    
-    db_session.commit()
-    if not app.security.datastore.find_user(email="test@me.com"):
-        app.security.datastore.create_user(email="test@me.com",username="testuser",
-        password=hash_password("password"), roles=["senior"],attributes=["yearsOfExperience-5","company-Willings Inc."])
-    if not app.security.datastore.find_user(email="test@you.com"):
-        app.security.datastore.create_user(email="test@you.com",username="testuser2",
-        password=hash_password("password"), roles=["student"],attributes=["yearsOfStudy-4","department-Metallurgical and Materials Engineering"])
-    
 
-    db_session.commit()
+class UserResource(Resource):
+    def post(self):
+        print("HERE")
+        data = request.get_json()
+        if not data:
+            return {'Error': 'REQUEST001'}, 400
+
+        email = data.get('email')
+        username = data.get('username')
+        password = data.get('password')
+        roles = data.get('roles')
+        attributes = data.get('attributes')
+
+        if not email or not username or not password or not roles:
+            return {'Error': 'REQUEST001'}, 400
+        
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return {'message': 'User with this email already exists'}, 400
+
+        try:
+            app.security.datastore.create_user(email=email,username=username, password=hash_password(password), roles=[roles],attributes=attributes.split(", "))
+            # db_session.add(User(username=username,email=email,password=hash_password(password),active=1,attributes=attributes.split(",")))
+            # db_session.add(RolesUsers(user_id=User.query.filter_by(username=username).first().id,role_id=Role.query.filter_by(name=roles).first().id))
+            db_session.commit()
+
+            return {'message': 'User created successfully'}, 201
+        except Exception as e:
+            print(e)
+            return {"Error":"USER001"},400
 
 
-
-api.add_resource(ExperienceResource,"/user/experience/","/user/experience/<int:exp_id>")
-api.add_resource(UserResource, '/user')
+api.add_resource(ExperienceResource,"/user/experience","/user/experience/<int:exp_id>")
+api.add_resource(UserResource,'/user' ,'/user-register')
 api.add_resource(QuestionResource,"/question")
