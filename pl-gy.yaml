@@ -1,13 +1,13 @@
 _type: export
 __export_format: 4
-__export_date: 2023-08-30T10:40:33.968Z
+__export_date: 2023-08-30T11:26:05.264Z
 __export_source: insomnia.desktop.app:v2023.5.6
 resources:
   - _id: req_c0115e3790834db7bf3e662609feb59a
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
-    modified: 1693379141406
+    modified: 1693394126375
     created: 1693375116250
-    url: "{{ _.base_url }}/register"
+    url: "{{ _.base_url }}/user-register"
     name: /register
     description: ""
     method: POST
@@ -18,8 +18,8 @@ resources:
           "username": "username",
           "email": "emailid@example.com",
           "password": "something",
-        	"roles":"aspiring",
-        	"attributes":"3rd Year, Metallurgy"
+        	"roles":"student",
+        	"attributes":"yearOfStudy-3rd Year,department-Metallurgy"
         	
         }
     parameters: []
@@ -300,7 +300,7 @@ resources:
     _type: request
   - _id: req_8ff99773f298493a89c9c3e31350c4ff
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
-    modified: 1693391968013
+    modified: 1693394559789
     created: 1693375116252
     url: "{{ _.base_url }}/question"
     name: /question
@@ -310,7 +310,7 @@ resources:
       mimeType: application/json
       text: >-
         {
-          "auth_token": "WyJkMzRjMTIxYzFjZDA0NmFkYjEzYjA3MTBkNTExNjBmMyJd.ZO8b4g.jtKW8zFZXgxF6nhDuqjhTJkZdbQ"
+          "auth_token": "WyI3Y2ZiMTFiZWU1NjU0YTA5YjJiODI0ZjJlZDhkMDQ1YyJd.ZO8mWg.0P34GkaVYSH-a7L1bqzfY3vBsiY"
         }
     parameters: []
     headers:
@@ -391,9 +391,9 @@ resources:
     _type: request
   - _id: req_ae76876dd53f4399abfd42b30d9843e0
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
-    modified: 1693379075246
+    modified: 1693394531073
     created: 1693375116242
-    url: "{{ _.base_url }}/user/experience/"
+    url: "{{ _.base_url }}/user/experience"
     name: /user/experience/
     description: ""
     method: POST
@@ -401,16 +401,16 @@ resources:
       mimeType: application/json
       text: >-
         {
-        	"auth_token":"WyI0ZGIyNWMzYTgyMzE0YmU0YTg3NzkyNGU5ZmJjMmU4MCJd.ZO7pew.Vi_0Di6qBgWx2s09VpDeUYUj67k",
-          "title": "Testing Title - Viroop",
-          "description": "Testing Description - Viroo",
+        	"auth_token":"WyI3Y2ZiMTFiZWU1NjU0YTA5YjJiODI0ZjJlZDhkMDQ1YyJd.ZO8mWg.0P34GkaVYSH-a7L1bqzfY3vBsiY",
+          "title": "Learning Experience at IITM BS Placement",
+          "description": "I want to describe about this huge. But I think this is fine.",
           "anonymous": 0
         }
     parameters: []
     headers:
-      - id: pair_76f9f83e519848f18654213a71565cff
-        name: Authentication-Token
-        value: WyI0ZGIyNWMzYTgyMzE0YmU0YTg3NzkyNGU5ZmJjMmU4MCJd.ZO7pew.Vi_0Di6qBgWx2s09VpDeUYUj67k
+      - id: pair_bcb63bf5754d4970875027a3d0d1a1cd
+        name: Content-Type
+        value: application/json
         description: ""
     authentication: {}
     metaSortKey: -1693375116242
@@ -424,7 +424,7 @@ resources:
     _type: request
   - _id: req_0c25dc8ea065451592e5c7fb540e4f85
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
-    modified: 1693378960299
+    modified: 1693394326834
     created: 1693375116240
     url: "{{ _.base_url }}/user/experience/"
     name: /user/experience/
@@ -434,7 +434,7 @@ resources:
       mimeType: application/json
       text: >-
         {
-          "auth_token": "WyI0ZGIyNWMzYTgyMzE0YmU0YTg3NzkyNGU5ZmJjMmU4MCJd.ZO7pew.Vi_0Di6qBgWx2s09VpDeUYUj67k"
+          "auth_token": "WyI3Y2ZiMTFiZWU1NjU0YTA5YjJiODI0ZjJlZDhkMDQ1YyJd.ZO8lig.Wh_QPVDeHnAA-nmmmNxbtgkIDpg"
         }
     parameters: []
     headers:
@@ -453,7 +453,7 @@ resources:
     _type: request
   - _id: req_f84fb9590ce843a4b5f6cf3c8db15678
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
-    modified: 1693377900602
+    modified: 1693394312313
     created: 1693375116239
     url: "{{ _.base_url }}/login?include_auth_token"
     name: /login?include_auth_token
@@ -463,8 +463,8 @@ resources:
       mimeType: application/json
       text: |-
         {
-          "email": "chekuriviroopaksh@gmail.com",
-          "password": "password"
+        	"email": "emailid@example.com",
+          "password": "something"
         }
     parameters: []
     headers:
@@ -497,20 +497,20 @@ resources:
     _type: environment
   - _id: jar_016e5f621db14f35a4589b3b7ec80bcf
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
-    modified: 1693378939612
+    modified: 1693394522965
     created: 1691666243349
     name: Default Jar
     cookies:
       - key: session
-        value: .eJwljktqBDEMRO_idQiyZf3mMo1kyyQEktA9sxpy9xhmUYuCV9R7lmOdeX2U2_185Fs5Pme5FSaeupTFTEbzDmgiAMo1WRwRw5CmNpLNEYlkm04VbMUyCJcJSIvAQMOpG9vSYBiVeHQXblxpQiPrbUQ1z9YnNgvViTtRtsjjyvNl02c0GujasPbI7ipired-Gy0VNj2ucx33n6_83rzGoAhnDugxUsV4kVSlmYtTl8tWoj72bl3HGHty5f3Vft3LrbIhihraOxkyNPn7BxkCUU8.ZO7pew.dUXah1tcZ5GDPm6koBzHheXepF4
+        value: .eJwljktqBDEMBe_idQi2ZP3mMo1kyyQEktA9sxpy9xhm8RYPqqCe5VhnXh_ldj8f-VaOz1luhYmnLmUxkwHeK5pIrcotWRwRw5CmAsnmiEQSplOrtmJZDZdZkRZVqxpO3diWBtfRiEd3YeBGswJZhxHNPKFPBAvViXtRdsjjyvNVI2NFa5FJTN2rBYRCX5BTZ-00Nj2ucx33n6_83ryBNEbx5tZJk6BhSMbsFC27EbKPmAO3t65jjK1ceX-9X_dya2yI2wV4t24Kyn__BI1Q-A.ZO8mWg.M05tM6L5Daz74KOtmjai2C2jAoI
         domain: 127.0.0.1
         path: /
         httpOnly: true
         hostOnly: true
         creation: 2022-03-21T05:36:55.496Z
-        lastAccessed: 2023-08-30T07:02:19.611Z
+        lastAccessed: 2023-08-30T11:22:02.964Z
         sameSite: strict
-        id: "2909295815027384"
+        id: "5586275316780018"
     _type: cookie_jar
   - _id: spc_c942f251c635402d91498b1b2b782bb0
     parentId: wrk_5b781d2149a34fe5b27694b23750e5bb
